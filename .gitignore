@@ -1,0 +1,4 @@
+.dockerignore
+postgres_data/
+db.sqlite3
+venv/
