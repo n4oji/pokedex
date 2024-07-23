@@ -1,0 +1,61 @@
+<!-- partials/pokemon_list.html -->
+<div class="row">
+    {% for pokemon in page_obj %}
+    <div class="col-md-2 col-sm-4 col-6 mb-4">
+        <div class="card" style="width: 12rem;">
+            <img src="{{ pokemon.image }}" class="card-img-top" style="background-color: lightgray;">
+            <div class="card-body">
+                <h5 class="card-title">{{ pokemon.number }} - {{ pokemon.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">
+                    {% for type in pokemon.types.all %}
+                    {{ type.name }}{% if not forloop.last %} / {% endif %}
+                    {% endfor %}
+                </h6>
+                <p class="card-text">Pokedex entry WIP</p>
+                <p class="card-text">Evolution: {{ pokemon.evolution_line }}</p>
+                <a href="#" class="card-link">Card link</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<!-- Paginação -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&laquo;</span>
+        </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+        <li class="page-item active">
+            <span class="page-link">{{ num }}</span>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&raquo;</span>
+        </li>
+        {% endif %}
+    </ul>
+</nav>

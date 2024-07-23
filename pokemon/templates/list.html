@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col">
+            <input type="text" class="form-control" id="search"
+                placeholder="Pesquisar por nome, tipo ou número da Pokédex" hx-get="{% url 'list-pkmns' %}"
+                hx-target="#pokemon-list" hx-trigger="keyup changed delay:500ms" name="q">
+        </div>
+    </div>
+    <div id="pokemon-list">
+        {% include 'partials/pokemon_list.html' %}
+    </div>
+</div>
+{% endblock %}

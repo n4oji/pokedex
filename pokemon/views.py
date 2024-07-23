@@ -2,12 +2,34 @@ from django.shortcuts import render  # type: ignore
 from .models import Pokemon, Type, Ability
 from django.http import HttpResponse  # type: ignore
 import requests
+from django.core.paginator import Paginator  # type: ignore
+from django.db.models import Q  # type: ignore
 
 
 def index(request):
-    pokemon_list = Pokemon.objects.all()
-    context = {"pokemon_list": pokemon_list}
-    return render(request, "index.html", context)
+    return render(request, "index.html")
+
+
+def list_pkmns(request):
+    query = request.GET.get('q')
+    if query:
+        pokemon_list = Pokemon.objects.filter(
+            Q(name__icontains=query) |
+            Q(types__name__icontains=query) |
+            Q(number__icontains=query)
+        ).distinct()
+    else:
+        pokemon_list = Pokemon.objects.all().order_by('number')
+    paginator = Paginator(pokemon_list, 18)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {"pokemon_list": pokemon_list, "page_obj": page_obj}
+
+    if 'HX-Request' in request.headers:
+        return render(request, "partials/pokemon_list.html", context)
+    return render(request, "list.html", context)
 
 
 def fecth_types(request):

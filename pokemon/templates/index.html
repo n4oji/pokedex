@@ -1,27 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Pokedex</title>
-    <script src="https://unpkg.com/htmx.org@1.5.0/dist/htmx.min.js"></script>
-</head>
-<body>
-    <h1>Pokedex</h1>
-    <ul>
-        {% for pokemon in pokemon_list %}
-            <li>
-                <img src="{{ pokemon.image }}" alt="{{ pokemon.name }}" width="100">
-                <strong>{{ pokemon.number }} - {{ pokemon.name }}</strong>
-                <p>Types: 
-                    {% for type in pokemon.types.all %} 
-                        {{type.name}}{% if not forloop.last %} / {% endif %}
-                    {% endfor %}
-                </p>
-                <p>HP: {{ pokemon.hp }}, ATK: {{ pokemon.attack }}, SpATK: {{ pokemon.special_attack }}, DEF: {{ pokemon.defense }}, SpDEF: {{ pokemon.special_defense }}, SPEED: {{ pokemon.speed }}</p>
-                {% if pokemon.evolution_line %}
-                    <p>Evolution Line: {{ pokemon.evolution_line }}</p>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Bem-vindo à minha Pokédex!</h1>
+        <p class="lead">Este é um projeto de estudo utilizando Django, Docker, PostgreSQL e HTMX.</p>
+        <hr class="my-4">
+        <p>
+            Esta aplicação foi desenvolvida para aprimorar habilidades em desenvolvimento web,
+            utilizando o framework Django para o backend, Docker para containerização, PostgreSQL como banco de dados e
+            HTMX para a
+            interação dinâmica na interface do usuário.
+        </p>
+        </p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="{% url 'list-pkmns' %}" role="button">Ver Pokémons</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
